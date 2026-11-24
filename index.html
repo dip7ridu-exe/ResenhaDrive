@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0a0b10">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>ResenhaDrive</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar" id="topbar" hidden>
+    <a class="brand" href="#/"><span class="brand-mark">▶</span><span class="brand-name" data-brand>ResenhaDrive</span></a>
+    <nav class="nav" id="nav">
+      <a href="#/" data-nav="inicio">Início</a>
+      <a href="#/filmes" data-nav="filmes">Filmes</a>
+      <a href="#/series" data-nav="series">Séries</a>
+      <a href="#/videos" data-nav="videos">Vídeos</a>
+      <a href="#/fotos" data-nav="fotos">Fotos</a>
+    </nav>
+    <div class="top-actions">
+      <label class="search">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.5 3a7.5 7.5 0 0 1 5.9 12.1l4.2 4.2-1.4 1.4-4.2-4.2A7.5 7.5 0 1 1 10.5 3zm0 2a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11z"/></svg>
+        <input id="search" type="search" placeholder="Buscar" autocomplete="off" aria-label="Buscar">
+      </label>
+      <button class="icon-btn" id="btnSettings" title="Configurações" aria-label="Configurações">
+        <img id="avatar" alt="" hidden referrerpolicy="no-referrer">
+        <svg id="gear" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8.5a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7zm8.4 2.3-1.9-.3a6.9 6.9 0 0 0-.7-1.7l1.1-1.6-1.9-1.9-1.6 1.1c-.5-.3-1.1-.5-1.7-.7L13.4 3h-2.8l-.3 1.9c-.6.2-1.2.4-1.7.7L7 4.5 5.1 6.4l1.1 1.6c-.3.5-.5 1.1-.7 1.7l-1.9.3v2.8l1.9.3c.2.6.4 1.2.7 1.7l-1.1 1.6 1.9 1.9 1.6-1.1c.5.3 1.1.5 1.7.7l.3 1.9h2.8l.3-1.9c.6-.2 1.2-.4 1.7-.7l1.6 1.1 1.9-1.9-1.1-1.6c.3-.5.5-1.1.7-1.7l1.9-.3z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main id="main"></main>
+
+  <!-- Player -->
+  <div class="player" id="player" hidden>
+    <div class="player-bar" id="playerBar">
+      <button class="pbtn" id="pBack" aria-label="Voltar">
+        <svg viewBox="0 0 24 24"><path d="M15.4 4.6 8 12l7.4 7.4 1.4-1.4-6-6 6-6z"/></svg>
+      </button>
+      <div class="ptitle"><strong id="pTitle"></strong><span id="pSub"></span></div>
+      <div class="pactions">
+        <button class="pbtn text" id="pNext" hidden>Próximo ▶</button>
+        <button class="pbtn text" id="pMode" title="Alternar entre o player direto (qualidade original) e o player do Google Drive (compatível com qualquer formato)">Player do Drive</button>
+        <a class="pbtn text" id="pOpen" target="_blank" rel="noopener">Abrir no Drive</a>
+      </div>
+    </div>
+    <video id="video" controls playsinline preload="metadata"></video>
+    <iframe id="driveFrame" hidden allow="autoplay; fullscreen; encrypted-media" allowfullscreen></iframe>
+    <div class="player-msg" id="playerMsg" hidden></div>
+  </div>
+
+  <!-- Visualizador de fotos -->
+  <div class="lightbox" id="lightbox" hidden>
+    <div class="lb-bar">
+      <span id="lbCount"></span>
+      <span class="lb-name" id="lbName"></span>
+      <div class="lb-actions">
+        <a class="pbtn text" id="lbDownload" download>Baixar</a>
+        <a class="pbtn text" id="lbOpen" target="_blank" rel="noopener">Abrir no Drive</a>
+        <button class="pbtn" id="lbClose" aria-label="Fechar"><svg viewBox="0 0 24 24"><path d="m6.4 5 5.6 5.6L17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4-5.6-5.6L6.4 19 5 17.6l5.6-5.6L5 6.4z"/></svg></button>
+      </div>
+    </div>
+    <button class="lb-nav prev" id="lbPrev" aria-label="Anterior"><svg viewBox="0 0 24 24"><path d="M15.4 4.6 8 12l7.4 7.4 1.4-1.4-6-6 6-6z"/></svg></button>
+    <div class="lb-stage"><img id="lbImg" alt="" referrerpolicy="no-referrer"></div>
+    <button class="lb-nav next" id="lbNext" aria-label="Próxima"><svg viewBox="0 0 24 24"><path d="m8.6 4.6 7.4 7.4-7.4 7.4-1.4-1.4 6-6-6-6z"/></svg></button>
+  </div>
+
+  <div class="modal-root" id="modalRoot"></div>
+  <div class="banner" id="renewBanner" hidden>
+    <span>A conexão com o Google Drive expirou.</span>
+    <button class="btn small primary" id="btnRenew">Reconectar</button>
+  </div>
+  <div class="loading" id="loading" hidden><div class="spinner"></div><p id="loadingText">Carregando…</p></div>
+  <div class="toasts" id="toasts"></div>
+
+  <script src="config.js"></script>
+  <script src="library.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
